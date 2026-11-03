@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>আপনাতেই আমি — ইশিকা ইসলাম ইশা</title>
+<meta name="theme-color" content="#17131a">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="আপনাতেই আমি">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--desk:#17131a;--gold:#c7a66b;--paper:#f6ecda;--ink:#31261e;--mute:#8d7b66;--line:#d9c8ae;--fs:17px;--serif:'Noto Serif Bengali',Georgia,serif;--sans:'Noto Sans Bengali',system-ui,sans-serif}
+body.sepia{--paper:#e8d6b0;--ink:#3f2f1a;--mute:#82693f;--line:#cdb68a}
+body.night{--paper:#201b21;--ink:#e6ddd1;--mute:#a09384;--line:#3a3138}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0;overflow:hidden}
+body{background:var(--desk);color:#eee7df;font-family:var(--sans);overscroll-behavior:none;-webkit-user-select:none;user-select:none}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.screen{position:fixed;inset:0;display:none}
+.screen.on{display:flex}
+/* ===== home ===== */
+#home{flex-direction:column;align-items:center;justify-content:center;gap:0;padding:calc(20px + env(safe-area-inset-top)) 24px calc(24px + env(safe-area-inset-bottom));overflow-y:auto;background:radial-gradient(ellipse at 50% 20%,#2c2230,var(--desk) 70%)}
+.cover{position:relative;width:min(62vw,300px);max-height:52vh;aspect-ratio:1085/1536;margin-top:auto;border-radius:3px 9px 9px 3px;box-shadow:0 28px 60px #000a,0 0 0 1px #d6b87944;overflow:hidden;flex:none}
+.cover img{width:100%;height:100%;object-fit:cover;display:block}
+.cover:after{content:'';position:absolute;left:0;top:0;bottom:0;width:16px;background:linear-gradient(90deg,#0009,#fff2 45%,#0003 75%,transparent)}
+h1{font-family:var(--serif);font-weight:600;color:#f2e3c9;font-size:34px;margin:24px 0 4px;text-align:center}
+.by{color:#cdbb9e;margin:0 0 6px}
+.last{color:#9d8f80;font-size:13px;min-height:20px;margin:0 0 18px}
+.btns{display:grid;gap:10px;width:min(100%,340px);margin-bottom:auto}
+.pri{background:linear-gradient(135deg,#d4b77e,#a7834f);color:#211812;border-radius:14px;padding:15px;font-weight:700;box-shadow:0 8px 25px #0006}
+.gho{border:1px solid #ffffff2a;border-radius:14px;padding:13px;color:#d9c49f}
+/* ===== reader ===== */
+#reader{flex-direction:column;align-items:center;justify-content:center}
+.book{position:relative;width:100%;height:100%;background:var(--paper);color:var(--ink);display:flex;flex-direction:column;overflow:hidden;transition:background .25s}
+.bar{position:absolute;left:0;right:0;z-index:6;display:flex;align-items:center;gap:4px;padding:6px 8px;background:var(--paper);transition:transform .25s,opacity .25s;color:var(--mute)}
+.bar.top{top:0;padding-top:calc(6px + env(safe-area-inset-top));border-bottom:1px solid var(--line)}
+.bar.bot{bottom:0;padding:8px 14px calc(8px + env(safe-area-inset-bottom));border-top:1px solid var(--line);flex-direction:column;align-items:stretch;gap:6px}
+body.immersive .bar.top{transform:translateY(-100%);opacity:0}
+body.immersive .bar.bot{transform:translateY(100%);opacity:0}
+.bar .t{flex:1;text-align:center;font-family:var(--serif);font-size:14px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ib{width:44px;height:44px;border-radius:12px;font-size:20px}
+.ib.star.on{color:var(--gold)}
+.pbar{height:3px;background:var(--line);border-radius:3px;overflow:hidden}.pbar i{display:block;height:100%;width:0;background:var(--gold);transition:width .3s}
+.pinfo{display:flex;justify-content:space-between;font-size:12px}
+.stage{position:absolute;inset:0;padding:calc(62px + env(safe-area-inset-top)) 0 calc(62px + env(safe-area-inset-bottom));display:flex;justify-content:center;touch-action:pan-y}
+.view{position:relative;overflow:hidden;height:100%}
+.flow{height:100%;column-fill:auto;font-family:var(--serif);font-size:var(--fs);line-height:1.5;text-align:justify;overflow-wrap:anywhere}
+.flow.drag{transition:none}
+.flow p{margin:0;text-indent:1.4em;orphans:2;widows:2}
+.flow p.first,.flow p.after{text-indent:0}
+.flow .sb{text-align:center;color:var(--gold);letter-spacing:.7em;margin:.6em 0;text-indent:0;break-inside:avoid}
+.flow .ttl{height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;break-after:column;break-inside:avoid}
+.ttl h2{font-weight:600;font-size:1.9em;margin:.3em 0}.ttl small{color:var(--mute);font-family:var(--sans);font-size:.7em}.ttl .o{color:var(--gold);font-size:1.4em}
+.flow mark{background:#d4b77e88;color:inherit;border-radius:3px}
+.shade{position:absolute;inset:0;pointer-events:none;z-index:3;background:linear-gradient(90deg,#4a342826 0,transparent 22px,transparent calc(100% - 22px),#4a34282a 100%)}
+.gut{position:absolute;top:0;bottom:0;left:50%;width:34px;margin-left:-17px;pointer-events:none;z-index:3;display:none;background:linear-gradient(90deg,transparent,#4a342830,transparent)}
+.wide .gut{display:block}
+/* desk look on wide screens */
+@media(min-width:760px){
+ #reader{background:radial-gradient(ellipse at 50% 30%,#2c2230,var(--desk) 75%)}
+ .book{width:min(1020px,94vw);height:min(860px,94vh);border-radius:6px 12px 12px 6px;box-shadow:0 30px 80px #000c,6px 0 0 #e7dcc6,10px 0 0 #cdbda3,14px 0 0 #e7dcc6}
+ .book.narrow{width:min(560px,94vw)}
+ .stage{padding:64px 0 62px}
+}
+/* sheets */
+.sheet{position:fixed;inset:0;z-index:30;background:#000a;display:none;align-items:flex-end;justify-content:center}
+.sheet.on{display:flex}
+.sheet>div{width:100%;max-width:520px;max-height:82vh;overflow:auto;background:#241d26;color:#eee7df;border-radius:22px 22px 0 0;padding:20px 20px calc(24px + env(safe-area-inset-bottom))}
+@media(min-width:760px){.sheet{align-items:center}.sheet>div{border-radius:22px}}
+.sheet h3{margin:0 0 12px;font-family:var(--serif);color:#f2e3c9}
+.sheet p{font-size:12px;color:#a99b8b;margin:14px 0 6px}
+.seg{display:flex;gap:8px}.seg button{flex:1;padding:12px;border:1px solid #ffffff25;border-radius:12px;font-size:13px}.seg button.on{border-color:var(--gold);color:var(--gold)}
+input[type=range]{width:100%;accent-color:var(--gold)}
+.srch{display:flex;gap:8px}.srch input{flex:1;min-width:0;background:#ffffff0d;border:1px solid #ffffff30;border-radius:10px;color:#fff;padding:11px 12px;font:inherit;-webkit-user-select:text;user-select:text}
+.srch button{border:1px solid #ffffff30;border-radius:10px;padding:0 14px}
+.res{font-size:13px;color:#e8d4ad;min-height:20px;margin-top:8px}
+.bm{display:flex;width:100%;text-align:left;gap:10px;padding:11px 0;border-bottom:1px solid #ffffff18;font-size:14px}.bm b{color:var(--gold);flex:none}.bm span{color:#c9beb5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#0d0a0e;color:#f2e3c9;border:1px solid #ffffff22;padding:10px 16px;border-radius:999px;font-size:13px;z-index:50;display:none;max-width:90%}
+.leaf{position:absolute;inset:0;z-index:5;background:var(--paper);transform-origin:left center;overflow:hidden;pointer-events:none;box-shadow:8px 0 24px #0005}
+.leaf .flow{transition:none}
+.pinfo{align-items:center}.nv{padding:8px 12px;border-radius:10px;border:1px solid var(--line);color:var(--ink);font-size:13px}.nv:disabled{opacity:.3}
+.chips{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}.chips button{padding:10px 0;border:1px solid #ffffff25;border-radius:10px;font-size:13px}.chips button.on{border-color:var(--gold);color:var(--gold)}
+.flow .chap{text-align:center;margin:.1em 0 .9em;break-inside:avoid;text-indent:0}.chap .o{color:var(--gold)}.chap h3{font-family:var(--serif);font-weight:600;font-size:1.3em;margin:.1em 0}
+.flow p.end{text-align:center;color:var(--mute);font-style:italic;text-indent:0;margin-top:.5em}
+@media(prefers-reduced-motion:reduce){.flow{transition:none}}
+</style>
+</head>
+<body>
+<section class="screen on" id="home">
+  <div class="cover"><img src="cover.jpg" alt="আপনাতেই আমি বইয়ের প্রচ্ছদ"></div>
+  <h1>আপনাতেই আমি</h1>
+  <p class="by">ইশিকা ইসলাম ইশা</p>
+  <p class="last" id="last"></p>
+  <div class="btns">
+    <button class="pri" id="go">পড়া শুরু করুন</button>
+    <button class="gho" id="installBtn" style="display:none">📲 অ্যাপ হিসেবে ইনস্টল করুন</button>
+  </div>
+</section>
+
+<section class="screen" id="reader">
+  <div class="book" id="book">
+    <div class="bar top"><button class="ib" id="home2" aria-label="প্রচ্ছদ">⌂</button><div class="t" id="ct">আপনাতেই আমি</div><button class="ib star" id="star" aria-label="বুকমার্ক">☆</button><button class="ib" id="menu" aria-label="মেনু">Aa</button></div>
+    <div class="stage" id="stage"><div class="view" id="view"><article class="flow" id="flow"></article><div class="gut"></div></div><div class="shade"></div></div>
+    <div class="bar bot"><div class="pbar"><i id="pb"></i></div><div class="pinfo"><button class="nv" id="pv">‹ আগের</button><span><span id="pn"></span> · <span id="pp"></span></span><button class="nv" id="nx">পরের ›</button></div></div>
+  </div>
+</section>
+
+<div class="sheet" id="sheet"><div>
+  <h3>পড়ার সেটিং</h3>
+  <p>থিম</p><div class="seg" id="themes"><button data-t="">কাগজ</button><button data-t="sepia">সেপিয়া</button><button data-t="night">রাত</button></div>
+  <p>লেখার আকার</p><input type="range" id="fs" min="15" max="30" aria-label="লেখার আকার">
+  <p>পর্ব বেছে নিন</p><div class="chips" id="chips"></div>
+  <p>এই পর্বের পাতায় যান</p><input type="range" id="jump" min="1" value="1" aria-label="পাতা">
+  <p>গল্পে খুঁজুন</p><div class="srch"><input id="q" placeholder="শব্দ লিখুন…"><button id="qb">খুঁজুন</button></div><div class="res" id="res"></div>
+  <p>বুকমার্ক</p><div id="bms"></div>
+  <button class="gho" id="close" style="width:100%;margin-top:18px">বন্ধ করুন</button>
+</div></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="story.js"></script>
+<script>
+const $=id=>document.getElementById(id),bn=n=>String(n).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]);
+const S={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let prefs=S.get('a4prefs',{theme:'',fs:17}),pos=S.get('b1pos',{c:0,i:0}),bms=S.get('b1bms',[]),ch=0,page=0,pages=1,step=0,paras=[],lastHit=null,flipping=false;
+const flow=$('flow'),view=$('view'),book=$('book'),NC=BOOK.length,cum=[];let TOT=0;BOOK.forEach(c=>{cum.push(TOT);TOT+=c.p.length});
+if(!BOOK[pos.c]||pos.i>=BOOK[pos.c].p.length)pos={c:0,i:0};
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isSB=s=>/^[,،\s]+$/.test(s),isEnd=s=>/^চলবে[,।.\s]*$/.test(s);
+function toast(t){const e=$('toast');e.textContent=t;e.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>e.style.display='none',2200)}
+/* build one chapter */
+function build(c){
+  flow.innerHTML='';paras=[];
+  if(c===0)flow.insertAdjacentHTML('beforeend','<div class="ttl"><div class="o">✦</div><h2>আপনাতেই আমি</h2><small>ইশিকা ইসলাম ইশা</small><div class="o" style="margin-top:.6em">❧</div></div>');
+  flow.insertAdjacentHTML('beforeend','<div class="chap"><div class="o">✦</div><h3>'+BOOK[c].t+'</h3></div>');
+  let prev=true;
+  BOOK[c].p.forEach((s,i)=>{
+    if(isSB(s)){if(!prev){const d=document.createElement('div');d.className='sb';d.textContent='✦ ✦ ✦';flow.appendChild(d)}prev=true;return}
+    const p=document.createElement('p');p.textContent=s;p.dataset.i=i;
+    if(isEnd(s))p.className='end';else if(prev)p.className='after';
+    prev=false;flow.appendChild(p);paras.push(p)});
+}
+const pageOf=el=>Math.max(0,Math.floor((el.offsetLeft+2)/step));
+function firstPara(){let r=paras[0];for(const p of paras){if(p.offsetLeft<=page*step+2)r=p;else break}return r}
+function layout(keep){
+  const spread=innerWidth>=980,stage=$('stage');
+  book.classList.toggle('narrow',!spread);stage.classList.toggle('wide',spread);
+  const padX=innerWidth<760?46:72,W=Math.floor(Math.min(stage.clientWidth-padX*2,spread?900:620)/2)*2,gap=spread?72:40,cols=spread?2:1,cw=(W-gap*(cols-1))/cols;
+  view.style.width=W+'px';flow.style.columnWidth=cw+'px';flow.style.columnGap=gap+'px';flow.style.columnCount=cols;flow.style.width=W+'px';
+  step=W+gap;
+  pages=Math.max(1,Math.ceil((flow.scrollWidth+gap)/step-0.01));$('jump').max=pages;
+  let el=null;if(keep!=null)el=paras.find(p=>+p.dataset.i>=keep)||paras[paras.length-1];
+  page=el?pageOf(el):Math.min(page,pages-1);go(page,false);
+}
+function go(n,anim=true){
+  page=Math.max(0,Math.min(pages-1,n));
+  if(!anim)flow.style.transition='none';
+  flow.style.transform='translateX('+(-page*step)+'px)';
+  if(!anim){void flow.offsetWidth;flow.style.transition=''}
+  const fp=firstPara(),fi=fp?+fp.dataset.i:0;
+  const pct=Math.min(100,Math.round((cum[ch]+fi)/TOT*100));
+  $('pb').style.width=pct+'%';$('ct').textContent=BOOK[ch].t;$('pn').textContent=BOOK[ch].t+' · পাতা '+bn(page+1)+'/'+bn(pages);$('pp').textContent=bn(pct)+'%';$('jump').value=page+1;
+  $('pv').disabled=ch===0&&page===0;$('nx').disabled=ch===NC-1&&page===pages-1;
+  pos={c:ch,i:page===0&&ch===0?0:fi};S.set('b1pos',pos);
+  const on=bms.some(b=>{if(b.c!==ch)return false;const e=paras.find(p=>+p.dataset.i===b.i);return e&&pageOf(e)===page});
+  $('star').textContent=on?'★':'☆';$('star').classList.toggle('on',on);
+}
+function loadChapter(c,where){
+  ch=c;page=0;build(c);
+  layout(typeof where==='number'?where:null);
+  if(where==='end')go(pages-1,false);
+}
+/* page turn: 3D leaf flip */
+function leaf(pg){const l=document.createElement('div');l.className='leaf';const c=flow.cloneNode(true);c.removeAttribute('id');c.style.transition='none';c.style.transform='translateX('+(-pg*step)+'px)';l.appendChild(c);view.appendChild(l);return l}
+const FR=[{transform:'perspective(1500px) rotateY(0deg)',filter:'brightness(1)'},{transform:'perspective(1500px) rotateY(-100deg)',filter:'brightness(.75)'}];
+function turn(n){
+  if(flipping)return;
+  if(n<0){if(ch>0)cross(-1);return}
+  if(n>=pages){if(ch<NC-1)cross(1);return}
+  if(n===page)return;
+  if(reduce){go(n,false);return}
+  flipping=true;const fwd=n>page,l=leaf(fwd?page:n);
+  if(fwd)go(n,false);
+  const an=l.animate(fwd?FR:[...FR].reverse(),{duration:520,easing:'ease-in-out',fill:'both'});
+  an.onfinish=()=>{if(!fwd)go(n,false);l.remove();flipping=false};
+}
+function cross(d){
+  flipping=true;
+  if(d>0){const l=reduce?null:leaf(page);loadChapter(ch+1,'start');if(!l){flipping=false;return}
+    l.animate(FR,{duration:520,easing:'ease-in-out',fill:'both'}).onfinish=()=>{l.remove();flipping=false}}
+  else{loadChapter(ch-1,'end');flow.animate([{opacity:0},{opacity:1}],{duration:320}).onfinish=()=>{flipping=false}}
+}
+const next=()=>turn(page+1),prev=()=>turn(page-1);
+$('pv').onclick=prev;$('nx').onclick=next;
+/* gestures */
+let sx=0,sy=0,st=0;
+view.addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY;st=Date.now()});
+view.addEventListener('pointerup',e=>{const dx=e.clientX-sx,dy=e.clientY-sy;
+  if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.2){dx<0?next():prev()}
+  else if(Math.abs(dx)<12&&Math.abs(dy)<12&&Date.now()-st<500)tap(e.clientX)});
+function tap(x){const r=view.getBoundingClientRect(),f=(x-r.left)/r.width;if(f<.28)prev();else if(f>.72)next();else document.body.classList.toggle('immersive')}
+addEventListener('keydown',e=>{if(!$('reader').classList.contains('on')||$('sheet').classList.contains('on'))return;if(e.key==='ArrowRight'||e.key===' ')next();if(e.key==='ArrowLeft')prev()});
+/* screens */
+function openAt(c,i){$('home').classList.remove('on');$('reader').classList.add('on');document.body.classList.remove('immersive');loadChapter(c,i>0?i:'start')}
+function openHome(){$('reader').classList.remove('on');$('home').classList.add('on');lastTxt()}
+function lastTxt(){const started=pos.c>0||pos.i>0;$('last').textContent=started?'আপনি '+bn(Math.min(100,Math.round((cum[pos.c]+pos.i)/TOT*100)))+'% পড়েছেন · '+BOOK[pos.c].t:bn(NC)+'টি পর্ব';$('go').textContent=started?'যেখানে থেমেছিলেন সেখান থেকে পড়ুন':'পড়া শুরু করুন'}
+$('go').onclick=()=>openAt(pos.c,pos.i);$('home2').onclick=openHome;
+/* prefs */
+function applyPrefs(){document.body.classList.remove('sepia','night');if(prefs.theme)document.body.classList.add(prefs.theme);document.documentElement.style.setProperty('--fs',prefs.fs+'px');$('fs').value=prefs.fs;document.querySelectorAll('#themes button').forEach(b=>b.classList.toggle('on',b.dataset.t===prefs.theme));S.set('a4prefs',prefs)}
+document.querySelectorAll('#themes button').forEach(b=>b.onclick=()=>{prefs.theme=b.dataset.t;applyPrefs()});
+$('fs').oninput=e=>{prefs.fs=+e.target.value;applyPrefs();relayout()};
+$('jump').oninput=e=>go(+e.target.value-1,false);
+function relayout(){const f=firstPara();layout(f?+f.dataset.i:null)}
+$('menu').onclick=()=>{renderChips();renderBms();$('sheet').classList.add('on')};
+$('close').onclick=()=>$('sheet').classList.remove('on');
+$('sheet').onclick=e=>{if(e.target===$('sheet'))$('sheet').classList.remove('on')};
+function renderChips(){const w=$('chips');w.innerHTML='';BOOK.forEach((c,i)=>{const b=document.createElement('button');b.textContent=c.t.replace('পর্ব ','');b.title=c.t;if(i===ch)b.className='on';b.onclick=()=>{$('sheet').classList.remove('on');loadChapter(i,'start')};w.appendChild(b)})}
+/* bookmarks */
+$('star').onclick=()=>{const on=$('star').classList.contains('on');const ids=paras.filter(p=>pageOf(p)===page).map(p=>+p.dataset.i);
+  if(on){bms=bms.filter(b=>!(b.c===ch&&ids.includes(b.i)));toast('বুকমার্ক সরানো হয়েছে')}else{const fp=firstPara();bms.push({c:ch,i:ids.length?ids[0]:+fp.dataset.i});toast('বুকমার্ক করা হয়েছে')}
+  S.set('b1bms',bms);go(page,false)};
+function renderBms(){const w=$('bms');w.innerHTML='';if(!bms.length){w.innerHTML='<div class="res">এখনো কোনো বুকমার্ক নেই। উপরের ☆ চাপুন।</div>';return}
+  [...bms].sort((a,b)=>a.c-b.c||a.i-b.i).forEach(m=>{const t=(BOOK[m.c]&&BOOK[m.c].p[m.i])||'';const b=document.createElement('button');b.className='bm';b.innerHTML='<b></b><span></span>';b.firstChild.textContent=BOOK[m.c].t;b.lastChild.textContent=t;b.onclick=()=>{$('sheet').classList.remove('on');loadChapter(m.c,m.i)};w.appendChild(b)})}
+/* search across all chapters */
+function search(){const q=$('q').value.trim(),r=$('res');if(!q){r.textContent='কিছু লিখে খুঁজুন।';return}
+  const fp=firstPara(),si=lastHit&&lastHit.q===q?lastHit.i+1:(fp?+fp.dataset.i:0);
+  for(let k=0;k<=NC;k++){const c=(ch+k)%NC,arr=BOOK[c].p;for(let i=k===0?si:0;i<arr.length;i++){if(arr[i].includes(q)){lastHit={q,c,i};loadChapter(c,i);mark(i,q);$('sheet').classList.remove('on');toast(BOOK[c].t+', পাতা '+bn(page+1)+'-এ পাওয়া গেছে');r.textContent='';return}}}
+  r.textContent='এই শব্দটি গল্পে পাওয়া যায়নি।'}
+function mark(i,q){const el=paras.find(p=>+p.dataset.i===i);if(!el)return;const n=el.firstChild;if(!n||n.nodeType!==3)return;const k=n.data.indexOf(q);if(k<0)return;const r=document.createRange();r.setStart(n,k);r.setEnd(n,k+q.length);const m=document.createElement('mark');r.surroundContents(m)}
+$('qb').onclick=search;$('q').addEventListener('keydown',e=>{if(e.key==='Enter')search()});
+/* resize + fonts */
+let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if($('reader').classList.contains('on'))relayout()},150)});
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{if($('reader').classList.contains('on'))relayout()});
+/* install */
+let dp;addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;$('installBtn').style.display='block'});
+$('installBtn').onclick=async()=>{if(dp){dp.prompt();await dp.userChoice;dp=null;$('installBtn').style.display='none'}else toast('Share মেনু থেকে “Add to Home Screen” চাপুন')};
+if(/iphone|ipad/i.test(navigator.userAgent)&&!navigator.standalone)$('installBtn').style.display='block';
+addEventListener('appinstalled',()=>{$('installBtn').style.display='none';toast('অ্যাপ ইনস্টল হয়েছে')});
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+applyPrefs();lastTxt();
+</script>
+</body>
+</html>
