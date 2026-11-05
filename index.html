@@ -88,6 +88,22 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 .chips{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}.chips button{padding:10px 0;border:1px solid #ffffff25;border-radius:10px;font-size:13px}.chips button.on{border-color:var(--gold);color:var(--gold)}
 .flow .chap{text-align:center;margin:.1em 0 .9em;break-inside:avoid;text-indent:0}.chap .o{color:var(--gold)}.chap h3{font-family:var(--serif);font-weight:600;font-size:1.3em;margin:.1em 0}
 .flow p.end{text-align:center;color:var(--mute);font-style:italic;text-indent:0;margin-top:.5em}
+.player{position:absolute;left:0;right:0;bottom:100%;display:none;align-items:center;gap:6px;padding:8px 10px;background:var(--paper);border-top:1px solid var(--line);color:var(--ink);font-size:12px}.player.on{display:flex}.player button{min-width:38px;height:38px;border-radius:10px;border:1px solid var(--line);font-size:15px}.player input{flex:1;min-width:0;accent-color:var(--gold)}
+.cover{transform:perspective(900px) rotateY(-7deg);transition:transform .4s}.cover:hover{transform:none}
+#home{background:radial-gradient(circle at 20% 12%,#c7a66b22,transparent 35%),radial-gradient(circle at 85% 78%,#7a3c5a30,transparent 40%),radial-gradient(ellipse at 50% 20%,#2f2434,var(--desk) 72%)}
+h1{background:linear-gradient(180deg,#fff0d4,#c9a469);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:.01em}
+.hbar{width:min(100%,340px);height:4px;border-radius:4px;background:#ffffff1c;margin:-6px 0 20px;overflow:hidden}.hbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#a7834f,#e6c98f)}
+.pri{letter-spacing:.01em}.gho{background:#ffffff08}
+.bar.top .t{font-size:15px;font-weight:600}
+.sheet>div{display:flex;flex-direction:column;height:80vh;max-height:80vh;padding:0;overflow:hidden;border-top:1px solid #c7a66b55}
+.hd{padding:8px 14px 0}.grab{width:42px;height:4px;border-radius:4px;background:#ffffff30;margin:2px auto 10px}
+.tabs{display:flex;gap:4px;border-bottom:1px solid #ffffff18}.tabs button{flex:1;padding:10px 2px;font-size:13px;color:#a99b8b;border-bottom:2px solid transparent}.tabs button.on{color:var(--gold);border-color:var(--gold);font-weight:700}
+.panes{flex:1;overflow:auto;padding:6px 18px 10px}.pane{display:none}
+.crow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 4px;border-bottom:1px solid #ffffff14}
+.crow .no{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;flex:none;font-size:13px;background:#ffffff0f;color:#d9c49f;font-family:var(--serif)}
+.crow .nm{flex:1;font-family:var(--serif)}.crow .sx{font-size:12px;color:#8d806f}
+.crow.done .no{background:#c7a66b33;color:var(--gold)}.crow.cur .no{background:var(--gold);color:#211812;font-weight:700}.crow.cur .nm{color:var(--gold)}
+.shut{margin:6px 18px calc(14px + env(safe-area-inset-bottom));width:auto}
 @media(prefers-reduced-motion:reduce){.flow{transition:none}}
 </style>
 </head>
@@ -96,34 +112,37 @@ input[type=range]{width:100%;accent-color:var(--gold)}
   <div class="cover"><img src="cover.jpg" alt="আপনাতেই আমি বইয়ের প্রচ্ছদ"></div>
   <h1>আপনাতেই আমি</h1>
   <p class="by">ইশিকা ইসলাম ইশা</p>
-  <p class="last" id="last"></p>
+  <p class="last" id="last"></p><div class="hbar"><i id="hb"></i></div>
   <div class="btns">
     <button class="pri" id="go">পড়া শুরু করুন</button>
+    <button class="gho" id="tocBtn">☰ পর্ব তালিকা ও পাতা</button>
     <button class="gho" id="installBtn" style="display:none">📲 অ্যাপ হিসেবে ইনস্টল করুন</button>
   </div>
 </section>
 
 <section class="screen" id="reader">
   <div class="book" id="book">
-    <div class="bar top"><button class="ib" id="home2" aria-label="প্রচ্ছদ">⌂</button><div class="t" id="ct">আপনাতেই আমি</div><button class="ib star" id="star" aria-label="বুকমার্ক">☆</button><button class="ib" id="menu" aria-label="মেনু">Aa</button></div>
+    <div class="bar top"><button class="ib" id="home2" aria-label="প্রচ্ছদ">⌂</button><div class="t" id="ct">আপনাতেই আমি</div><button class="ib" id="aud" aria-label="অডিও শুনুন" style="display:none">🎧</button><button class="ib star" id="star" aria-label="বুকমার্ক">☆</button><button class="ib" id="aa" aria-label="সেটিং">Aa</button><button class="ib" id="menu" aria-label="মেনু">☰</button></div>
     <div class="stage" id="stage"><div class="view" id="view"><article class="flow" id="flow"></article><div class="gut"></div></div><div class="shade"></div></div>
-    <div class="bar bot"><div class="pbar"><i id="pb"></i></div><div class="pinfo"><button class="nv" id="pv">‹ আগের</button><span><span id="pn"></span> · <span id="pp"></span></span><button class="nv" id="nx">পরের ›</button></div></div>
+    <div class="bar bot"><div class="player" id="player"><button id="pl" aria-label="চালান/থামান">▶</button><button id="b15" aria-label="১৫ সেকেন্ড পিছনে">⟲</button><input type="range" id="seek" min="0" max="1000" value="0" aria-label="অডিও"><span id="tm">০:০০</span><button id="spd" aria-label="গতি">১×</button><button id="f15" aria-label="১৫ সেকেন্ড সামনে">⟳</button></div><div class="pbar"><i id="pb"></i></div><div class="pinfo"><button class="nv" id="pv">‹ আগের</button><span><span id="pn"></span> · <span id="pp"></span></span><button class="nv" id="nx">পরের ›</button></div></div>
   </div>
 </section>
 
 <div class="sheet" id="sheet"><div>
-  <h3>পড়ার সেটিং</h3>
-  <p>থিম</p><div class="seg" id="themes"><button data-t="">কাগজ</button><button data-t="sepia">সেপিয়া</button><button data-t="night">রাত</button></div>
-  <p>লেখার আকার</p><input type="range" id="fs" min="15" max="30" aria-label="লেখার আকার">
-  <p>পর্ব বেছে নিন</p><div class="chips" id="chips"></div>
-  <p>এই পর্বের পাতায় যান</p><input type="range" id="jump" min="1" value="1" aria-label="পাতা">
-  <p>গল্পে খুঁজুন</p><div class="srch"><input id="q" placeholder="শব্দ লিখুন…"><button id="qb">খুঁজুন</button></div><div class="res" id="res"></div>
-  <p>বুকমার্ক</p><div id="bms"></div>
-  <button class="gho" id="close" style="width:100%;margin-top:18px">বন্ধ করুন</button>
+  <div class="hd"><div class="grab"></div><div class="tabs" id="tabs"><button data-p="ch">পর্ব</button><button data-p="pg">পাতা</button><button data-p="se">খুঁজুন</button><button data-p="bm">বুকমার্ক</button><button data-p="st">সেটিং</button></div></div>
+  <div class="panes">
+   <div class="pane" id="p-ch"><div id="chlist"></div></div>
+   <div class="pane" id="p-pg"><h3 id="pginfo"></h3><p>পাতা নম্বর লিখে যান</p><div class="srch"><input id="pgn" inputmode="numeric" placeholder="যেমন ৫"><button id="pgb">যান</button></div><p>স্লাইডার টেনে এই পর্বের পাতায় যান</p><input type="range" id="jump" min="1" value="1" aria-label="পাতা"><p>পুরো বইয়ের যেকোনো জায়গায় যান</p><input type="range" id="gjump" min="0" max="100" value="0" aria-label="পুরো বই"><div class="res" id="gres"></div></div>
+   <div class="pane" id="p-se"><p>গল্পে শব্দ খুঁজুন</p><div class="srch"><input id="q" placeholder="শব্দ লিখুন…"><button id="qb">খুঁজুন</button></div><div class="res" id="res"></div></div>
+   <div class="pane" id="p-bm"><div id="bms"></div></div>
+   <div class="pane" id="p-st"><p>থিম</p><div class="seg" id="themes"><button data-t="">কাগজ</button><button data-t="sepia">সেপিয়া</button><button data-t="night">রাত</button></div><p>লেখার আকার</p><input type="range" id="fs" min="15" max="30" aria-label="লেখার আকার"></div>
+  </div>
+  <button class="gho shut" id="close">বন্ধ করুন</button>
 </div></div>
 <div class="toast" id="toast" role="status"></div>
 
 <script src="story.js"></script>
+<script src="audio.js"></script>
 <script>
 const $=id=>document.getElementById(id),bn=n=>String(n).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]);
 const S={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
@@ -131,7 +150,7 @@ let prefs=S.get('a4prefs',{theme:'',fs:17}),pos=S.get('b1pos',{c:0,i:0}),bms=S.g
 const flow=$('flow'),view=$('view'),book=$('book'),NC=BOOK.length,cum=[];let TOT=0;BOOK.forEach(c=>{cum.push(TOT);TOT+=c.p.length});
 if(!BOOK[pos.c]||pos.i>=BOOK[pos.c].p.length)pos={c:0,i:0};
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-const isSB=s=>/^[,،\s]+$/.test(s),isEnd=s=>/^চলবে[,।.\s]*$/.test(s);
+const isSB=s=>/^[,،\s]+$/.test(s),isEnd=s=>/^(চলবে|সমাপ্ত)[,।.\s]*$/.test(s);
 function toast(t){const e=$('toast');e.textContent=t;e.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>e.style.display='none',2200)}
 /* build one chapter */
 function build(c){
@@ -164,7 +183,7 @@ function go(n,anim=true){
   if(!anim){void flow.offsetWidth;flow.style.transition=''}
   const fp=firstPara(),fi=fp?+fp.dataset.i:0;
   const pct=Math.min(100,Math.round((cum[ch]+fi)/TOT*100));
-  $('pb').style.width=pct+'%';$('ct').textContent=BOOK[ch].t;$('pn').textContent=BOOK[ch].t+' · পাতা '+bn(page+1)+'/'+bn(pages);$('pp').textContent=bn(pct)+'%';$('jump').value=page+1;
+  $('pb').style.width=pct+'%';$('ct').textContent=BOOK[ch].t;$('hb')&&0;$('pn').textContent=BOOK[ch].t+' · পাতা '+bn(page+1)+'/'+bn(pages);$('pp').textContent=bn(pct)+'%';$('jump').value=page+1;
   $('pv').disabled=ch===0&&page===0;$('nx').disabled=ch===NC-1&&page===pages-1;
   pos={c:ch,i:page===0&&ch===0?0:fi};S.set('b1pos',pos);
   const on=bms.some(b=>{if(b.c!==ch)return false;const e=paras.find(p=>+p.dataset.i===b.i);return e&&pageOf(e)===page});
@@ -174,7 +193,25 @@ function loadChapter(c,where){
   ch=c;page=0;build(c);
   layout(typeof where==='number'?where:null);
   if(where==='end')go(pages-1,false);
+  auUI();
 }
+/* audio player (plays files listed in audio.js: {chapterIndex: url}) */
+const au=new Audio();au.preload='none';let auCh=-1,sps=[1,1.25,1.5,0.85],spi=0;
+const hasAu=c=>typeof AUDIO!=='undefined'&&AUDIO[c]!=null;
+const fmt=s=>{s=Math.max(0,Math.floor(s||0));return bn(Math.floor(s/60)+':'+String(s%60).padStart(2,'0'))};
+function auUI(){$('aud').style.display=hasAu(ch)?'':'none';if(!hasAu(ch)&&au.paused)$('player').classList.remove('on')}
+function setAudio(c){au.src=AUDIO[c];auCh=c;au.playbackRate=sps[spi];
+  if('mediaSession' in navigator){navigator.mediaSession.metadata=new MediaMetadata({title:BOOK[c].t,artist:'ইশিকা ইসলাম ইশা',album:'আপনাতেই আমি',artwork:[{src:'icon-512.png',sizes:'512x512',type:'image/png'}]});
+    const h=(a,f)=>{try{navigator.mediaSession.setActionHandler(a,f)}catch(e){}};h('play',()=>au.play());h('pause',()=>au.pause());h('seekbackward',()=>au.currentTime-=15);h('seekforward',()=>au.currentTime+=15);h('nexttrack',()=>autoNext())}}
+function autoNext(){const n=auCh+1;if(hasAu(n)){if($('reader').classList.contains('on'))loadChapter(n,'start');setAudio(n);au.play().catch(()=>{})}}
+$('aud').onclick=()=>{const p=$('player');p.classList.toggle('on');if(p.classList.contains('on')&&auCh!==ch)setAudio(ch)};
+$('pl').onclick=()=>{if(auCh!==ch&&au.paused)setAudio(ch);au.paused?au.play().catch(()=>toast('অডিও চালানো যায়নি')):au.pause()};
+$('b15').onclick=()=>{au.currentTime=Math.max(0,au.currentTime-15)};$('f15').onclick=()=>{au.currentTime=Math.min(au.duration||1e9,au.currentTime+15)};
+$('spd').onclick=()=>{spi=(spi+1)%sps.length;au.playbackRate=sps[spi];$('spd').textContent=bn(sps[spi])+'×'};
+$('seek').oninput=e=>{if(au.duration)au.currentTime=au.duration*e.target.value/1000};
+au.addEventListener('play',()=>{$('pl').textContent='❚❚'});au.addEventListener('pause',()=>{$('pl').textContent='▶'});
+au.addEventListener('timeupdate',()=>{if(au.duration)$('seek').value=au.currentTime/au.duration*1000;$('tm').textContent=fmt(au.currentTime)});
+au.addEventListener('ended',autoNext);au.addEventListener('error',()=>toast('অডিও ফাইল পাওয়া যায়নি'));
 /* page turn: 3D leaf flip */
 function leaf(pg){const l=document.createElement('div');l.className='leaf';const c=flow.cloneNode(true);c.removeAttribute('id');c.style.transition='none';c.style.transform='translateX('+(-pg*step)+'px)';l.appendChild(c);view.appendChild(l);return l}
 const FR=[{transform:'perspective(1500px) rotateY(0deg)',filter:'brightness(1)'},{transform:'perspective(1500px) rotateY(-100deg)',filter:'brightness(.75)'}];
@@ -208,7 +245,7 @@ addEventListener('keydown',e=>{if(!$('reader').classList.contains('on')||$('shee
 /* screens */
 function openAt(c,i){$('home').classList.remove('on');$('reader').classList.add('on');document.body.classList.remove('immersive');loadChapter(c,i>0?i:'start')}
 function openHome(){$('reader').classList.remove('on');$('home').classList.add('on');lastTxt()}
-function lastTxt(){const started=pos.c>0||pos.i>0;$('last').textContent=started?'আপনি '+bn(Math.min(100,Math.round((cum[pos.c]+pos.i)/TOT*100)))+'% পড়েছেন · '+BOOK[pos.c].t:bn(NC)+'টি পর্ব';$('go').textContent=started?'যেখানে থেমেছিলেন সেখান থেকে পড়ুন':'পড়া শুরু করুন'}
+function lastTxt(){$('hb').style.width=Math.round((cum[pos.c]+pos.i)/TOT*100)+'%';const started=pos.c>0||pos.i>0;$('last').textContent=started?'আপনি '+bn(Math.min(100,Math.round((cum[pos.c]+pos.i)/TOT*100)))+'% পড়েছেন · '+BOOK[pos.c].t:bn(NC)+'টি পর্ব';$('go').textContent=started?'যেখানে থেমেছিলেন সেখান থেকে পড়ুন':'পড়া শুরু করুন'}
 $('go').onclick=()=>openAt(pos.c,pos.i);$('home2').onclick=openHome;
 /* prefs */
 function applyPrefs(){document.body.classList.remove('sepia','night');if(prefs.theme)document.body.classList.add(prefs.theme);document.documentElement.style.setProperty('--fs',prefs.fs+'px');$('fs').value=prefs.fs;document.querySelectorAll('#themes button').forEach(b=>b.classList.toggle('on',b.dataset.t===prefs.theme));S.set('a4prefs',prefs)}
@@ -216,10 +253,21 @@ document.querySelectorAll('#themes button').forEach(b=>b.onclick=()=>{prefs.them
 $('fs').oninput=e=>{prefs.fs=+e.target.value;applyPrefs();relayout()};
 $('jump').oninput=e=>go(+e.target.value-1,false);
 function relayout(){const f=firstPara();layout(f?+f.dataset.i:null)}
-$('menu').onclick=()=>{renderChips();renderBms();$('sheet').classList.add('on')};
+function openSheet(tab){document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.p===tab));document.querySelectorAll('.pane').forEach(p=>p.style.display=p.id==='p-'+tab?'block':'none');
+  if(tab==='ch')renderList();if(tab==='bm')renderBms();if(tab==='pg')syncPg();$('sheet').classList.add('on');
+  if(tab==='ch'){const c=$('chlist').querySelector('.cur');if(c)c.scrollIntoView({block:'center'})}}
+document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>openSheet(b.dataset.p));
+$('menu').onclick=()=>openSheet('ch');$('aa').onclick=()=>openSheet('st');$('tocBtn').onclick=()=>{openAt(pos.c,pos.i);openSheet('ch')};
+const asc=s=>s.replace(/[০-৯]/g,d=>'০১২৩৪৫৬৭৮৯'.indexOf(d));
+function syncPg(){$('pginfo').textContent=BOOK[ch].t+' · মোট '+bn(pages)+' পাতা, এখন '+bn(page+1)+' নম্বরে';$('jump').value=page+1;const fp=firstPara();$('gjump').value=Math.round((cum[ch]+(fp?+fp.dataset.i:0))/TOT*100);$('gres').textContent=''}
+function gpos(v){const g=Math.min(TOT-1,Math.round(v/100*TOT));let c=0;while(c<NC-1&&cum[c+1]<=g)c++;return {c,i:g-cum[c]}}
+$('gjump').oninput=e=>{const p=gpos(+e.target.value);$('gres').textContent=BOOK[p.c].t+' ('+bn(e.target.value)+'%)'};
+$('gjump').onchange=e=>{const p=gpos(+e.target.value);$('sheet').classList.remove('on');loadChapter(p.c,p.i)};
+$('pgb').onclick=()=>{const n=parseInt(asc($('pgn').value),10);if(n>=1&&n<=pages){$('sheet').classList.remove('on');go(n-1,false)}else toast('১ থেকে '+bn(pages)+'-এর মধ্যে পাতা নম্বর দিন')};
+$('pgn').addEventListener('keydown',e=>{if(e.key==='Enter')$('pgb').click()});
 $('close').onclick=()=>$('sheet').classList.remove('on');
 $('sheet').onclick=e=>{if(e.target===$('sheet'))$('sheet').classList.remove('on')};
-function renderChips(){const w=$('chips');w.innerHTML='';BOOK.forEach((c,i)=>{const b=document.createElement('button');b.textContent=c.t.replace('পর্ব ','');b.title=c.t;if(i===ch)b.className='on';b.onclick=()=>{$('sheet').classList.remove('on');loadChapter(i,'start')};w.appendChild(b)})}
+function renderList(){const w=$('chlist');w.innerHTML='';BOOK.forEach((c,i)=>{const b=document.createElement('button');b.className='crow'+(i===ch?' cur':i<ch?' done':'');b.innerHTML='<span class="no"></span><span class="nm"></span><span class="sx"></span>';b.children[0].textContent=c.t.replace('পর্ব ','').replace(' পর্ব','');b.children[1].textContent=c.t;b.children[2].textContent=i===ch?'পড়ছেন':i<ch?'✓':'';b.onclick=()=>{$('sheet').classList.remove('on');loadChapter(i,'start')};w.appendChild(b)})}
 /* bookmarks */
 $('star').onclick=()=>{const on=$('star').classList.contains('on');const ids=paras.filter(p=>pageOf(p)===page).map(p=>+p.dataset.i);
   if(on){bms=bms.filter(b=>!(b.c===ch&&ids.includes(b.i)));toast('বুকমার্ক সরানো হয়েছে')}else{const fp=firstPara();bms.push({c:ch,i:ids.length?ids[0]:+fp.dataset.i});toast('বুকমার্ক করা হয়েছে')}
